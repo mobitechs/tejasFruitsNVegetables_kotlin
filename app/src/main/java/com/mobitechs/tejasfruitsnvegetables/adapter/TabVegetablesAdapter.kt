@@ -31,6 +31,7 @@ class TabVegetablesAdapter(
     RecyclerView.Adapter<TabVegetablesAdapter.MyViewHolder>() {
 
     private var listItems = ArrayList<ProductListItems>()
+    private var actualListItems = ArrayList<ProductListItems>()
     var check = false
     var context: Context = activityContext
 
@@ -38,12 +39,13 @@ class TabVegetablesAdapter(
 
     lateinit var holderItem: MyViewHolder
 
-    fun updateListItems(categoryModel: ArrayList<ProductListItems>) {
+    fun updateListItems(items: ArrayList<ProductListItems>) {
         if(SharePreferenceManager.getInstance(context).getCartListItems(Constants.CartList)  != null){
             cartListItems = SharePreferenceManager.getInstance(context).getCartListItems(Constants.CartList) as ArrayList<ProductListItems>
         }
         listItems.clear()
-        listItems.addAll(categoryModel)
+        listItems.addAll(items)
+        actualListItems.addAll(items)
         notifyDataSetChanged()
     }
 
@@ -142,7 +144,7 @@ class TabVegetablesAdapter(
              override fun performFiltering(charSequence: CharSequence): FilterResults? {
                 val charString = charSequence.toString()
                 if (charString.isEmpty()) {
-                    listItems = allProduct
+                    listItems = actualListItems
                 } else {
                     val filteredList: MutableList<ProductListItems> = ArrayList()
                     for (row in allProduct) {

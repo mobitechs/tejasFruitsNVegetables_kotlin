@@ -1,6 +1,8 @@
 package com.mobitechs.tejasfruitsnvegetables.view.fragment
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.textfield.TextInputEditText
 import com.mobitechs.tejasfruitsnvegetables.R
 import com.mobitechs.tejasfruitsnvegetables.adapter.TabVegetablesAdapter
 import com.mobitechs.tejasfruitsnvegetables.callbacks.AddOrRemoveListener
@@ -32,6 +35,8 @@ class TabExoticVegetalbesFragment : Fragment(), AddOrRemoveListener {
     lateinit var mLayoutManager: GridLayoutManager
 
     var categoryId = "2"
+    var searchText = ""
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -55,6 +60,20 @@ class TabExoticVegetalbesFragment : Fragment(), AddOrRemoveListener {
 
         listItems = SharePreferenceManager.getInstance(requireContext()).getCartListItems(Constants.tab2List) as ArrayList<ProductListItems>
         setupRecyclerView()
+
+        val edSearch: TextInputEditText = rootView.findViewById(R.id.edSearch)!!
+        edSearch.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                searchText = s.toString()
+                listAdapter.getFilter()!!.filter(searchText)
+
+            }
+
+            override fun afterTextChanged(s: Editable) {}
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                // TODO Auto-generated method stub
+            }
+        })
 
     }
 

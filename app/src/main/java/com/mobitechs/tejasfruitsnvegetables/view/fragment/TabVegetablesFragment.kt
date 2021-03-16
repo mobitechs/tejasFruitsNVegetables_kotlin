@@ -1,6 +1,8 @@
 package com.mobitechs.tejasfruitsnvegetables.view.fragment
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.textfield.TextInputEditText
 import com.mobitechs.tejasfruitsnvegetables.R
 import com.mobitechs.tejasfruitsnvegetables.adapter.TabVegetablesAdapter
 import com.mobitechs.tejasfruitsnvegetables.callbacks.AddOrRemoveListener
@@ -20,6 +23,7 @@ import com.mobitechs.tejasfruitsnvegetables.utils.addToCart
 import com.mobitechs.tejasfruitsnvegetables.utils.removeToCart
 import com.mobitechs.tejasfruitsnvegetables.utils.showToastMsg
 import com.mobitechs.tejasfruitsnvegetables.viewModel.VendorListActivityViewModel
+import kotlinx.android.synthetic.main.contenair.*
 
 class TabVegetablesFragment : Fragment(), AddOrRemoveListener {
 
@@ -33,6 +37,7 @@ class TabVegetablesFragment : Fragment(), AddOrRemoveListener {
     var allProductListItems = ArrayList<ProductListItems>()
 
     var categoryId = "1"
+    var searchText = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,6 +58,20 @@ class TabVegetablesFragment : Fragment(), AddOrRemoveListener {
         allProductListItems = SharePreferenceManager.getInstance(requireContext()).getCartListItems(Constants.AllProductList) as ArrayList<ProductListItems>
         listItems = SharePreferenceManager.getInstance(requireContext()).getCartListItems(Constants.tab1List) as ArrayList<ProductListItems>
         setupRecyclerView()
+
+        val edSearch: TextInputEditText = rootView.findViewById(R.id.edSearch)!!
+        edSearch.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                searchText = s.toString()
+                listAdapter.getFilter()!!.filter(searchText)
+
+            }
+
+            override fun afterTextChanged(s: Editable) {}
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                // TODO Auto-generated method stub
+            }
+        })
 
     }
 

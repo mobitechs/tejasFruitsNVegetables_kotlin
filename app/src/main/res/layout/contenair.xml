@@ -40,23 +40,9 @@
                 android:fontFamily="@font/roboto_bold"
                 android:gravity="center"
                 android:text="Home"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:id="@+id/tvToolbarTitle"
                 android:textColor="@android:color/white" />
-
-            <androidx.appcompat.widget.AppCompatEditText
-                android:layout_centerVertical="true"
-                android:layout_marginHorizontal="@dimen/_10sdp"
-                android:hint="Search"
-                android:textColorHint="@color/white"
-                android:textColor="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/ivMenu"
-                android:layout_toStartOf="@+id/layoutCart"
-                android:id="@+id/txtSearch"/>
-
-
 
             <RelativeLayout
                 android:id="@+id/layoutCart"

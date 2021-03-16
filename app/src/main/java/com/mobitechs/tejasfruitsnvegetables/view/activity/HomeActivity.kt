@@ -32,7 +32,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener, AlertDialogBtnCl
     var userType = ""
     var minAmt = ""
     var discount = ""
-    var searchText = ""
+//    var searchText = ""
     var cartCount = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,18 +44,18 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener, AlertDialogBtnCl
         displayView(1)
         setupDrawer()
 
-        txtSearch.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                searchText = s.toString()
-//                reviewAdapter.getFilter().filter(searchText)
-                
-            }
-
-            override fun afterTextChanged(s: Editable) {}
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                // TODO Auto-generated method stub
-            }
-        })
+//        txtSearch.addTextChangedListener(object : TextWatcher {
+//            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+//                searchText = s.toString()
+////                reviewAdapter.getFilter().filter(searchText)
+//
+//            }
+//
+//            override fun afterTextChanged(s: Editable) {}
+//            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+//                // TODO Auto-generated method stub
+//            }
+//        })
     }
 
     fun drawerInit() {
@@ -188,8 +188,8 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener, AlertDialogBtnCl
 
     private fun toolbarTitle(title: String) {
         tvToolbarTitle.text = title
-        txtSearch.visibility = View.VISIBLE
-        tvToolbarTitle.visibility = View.GONE
+//        txtSearch.visibility = View.VISIBLE
+//        tvToolbarTitle.visibility = View.GONE
     }
 
     override fun onResume() {

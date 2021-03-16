@@ -5,7 +5,7 @@
     android:drawableTint="@color/black"
     android:drawableStart="@drawable/ic_baseline_search_24"
     android:drawablePadding="@dimen/_5sdp"
-    android:hint="Search by Business,Category,etc"
+    android:hint="Search"
     android:textSize="@dimen/_14sdp"
     android:inputType="text"
     android:imeOptions="actionDone"
