@@ -16,6 +16,7 @@ class VendorListActivityViewModel(application: Application) : AndroidViewModel(a
     val allProductListItems: LiveData<ArrayList<ProductListItems>>
     val addressListItems: LiveData<ArrayList<AddressListItems>>
     val myOrderListItems: LiveData<ArrayList<MyOrderListItems>>
+    val adminOrderListItems: LiveData<ArrayList<MyOrderListItems>>
 
 
     init {
@@ -23,6 +24,7 @@ class VendorListActivityViewModel(application: Application) : AndroidViewModel(a
         this.listItems = repository.listItems
         this.addressListItems = repository.addressListItems
         this.myOrderListItems = repository.myOrderListItems
+        this.adminOrderListItems = repository.adminOrderListItems
         this.allProductListItems = repository.allProductListItems
     }
 
@@ -37,6 +39,10 @@ class VendorListActivityViewModel(application: Application) : AndroidViewModel(a
 
     fun getMyOrderList() {
         repository.getMyOrderList()
+    }
+
+    fun getAdminOrderList() {
+        repository.getAdminOrderList()
     }
 
    fun getAddressList() {

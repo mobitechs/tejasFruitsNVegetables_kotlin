@@ -28,12 +28,9 @@ import kotlinx.android.synthetic.main.drawer_layout.*
 class HomeActivity : AppCompatActivity(), View.OnClickListener, AlertDialogBtnClickedCallBack {
 
     private var doubleBackToExitPressedOnce = false
-    lateinit var toolbar: ActionBar
-    var userType = ""
-    var minAmt = ""
-    var discount = ""
-//    var searchText = ""
     var cartCount = 0
+    var userType=""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -44,18 +41,6 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener, AlertDialogBtnCl
         displayView(1)
         setupDrawer()
 
-//        txtSearch.addTextChangedListener(object : TextWatcher {
-//            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-//                searchText = s.toString()
-////                reviewAdapter.getFilter().filter(searchText)
-//
-//            }
-//
-//            override fun afterTextChanged(s: Editable) {}
-//            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-//                // TODO Auto-generated method stub
-//            }
-//        })
     }
 
     fun drawerInit() {
@@ -119,6 +104,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener, AlertDialogBtnCl
         val userDetails = SharePreferenceManager.getInstance(this).getUserLogin(Constants.USERDATA)
 
         if (userDetails?.get(0)?.name != null) {
+            userType = userDetails!![0].userType
             txtUserName.setText(userDetails!![0].name)
             txtMobile.setText(userDetails!![0].mobileNo)
             txtEmail.setText(userDetails!![0].emailId)
@@ -146,8 +132,12 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener, AlertDialogBtnCl
         when (pos) {
             1 -> {
                 toolbarTitle("Home")
-//                addFragment(HomeFragment(), false, R.id.nav_host_fragment, "HomeFragment")
-                replaceFragment(HomeFragment(), false, R.id.nav_host_fragment, "HomeFragment")
+                if(userType.equals("Admin")){
+                    replaceFragment(HomeFragmentAdmin(), false, R.id.nav_host_fragment, "HomeFragmentAdmin")
+                }else{
+                    replaceFragment(HomeFragment(), false, R.id.nav_host_fragment, "HomeFragment")
+                }
+
             }
             2 -> {
                 toolbarTitle("Profile")

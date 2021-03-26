@@ -1,4 +1,4 @@
-package com.mobitechs.tejasfruitsnvegetables.view.activity
+package com.mobitechs.tejasfruitsnvegetables.view.fragment
 
 import android.content.DialogInterface
 import android.content.Intent

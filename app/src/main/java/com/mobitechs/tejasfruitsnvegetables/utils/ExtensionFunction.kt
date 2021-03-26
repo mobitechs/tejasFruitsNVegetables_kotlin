@@ -114,8 +114,7 @@ fun AppCompatActivity.replaceFragment(
     val fragmentManager: FragmentManager = supportFragmentManager
 
     val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-    fragmentTransaction.add(containerViewId, fragment!!, flag)
-    fragmentTransaction.addToBackStack(flag)
+    fragmentTransaction.replace(containerViewId, fragment!!, flag)
     if (!supportFragmentManager.isStateSaved) {
         fragmentTransaction.commit()
     } else if (allowStateLoss) {

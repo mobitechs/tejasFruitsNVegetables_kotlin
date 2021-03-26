@@ -15,40 +15,7 @@
         android:touchscreenBlocksFocus="false"
 
         >
-        <!--android:background="@drawable/drawer_back"-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:orientation="vertical">
 
-            <!--            <androidx.appcompat.widget.AppCompatTextView-->
-            <!--                android:id="@+id/btnLogOut"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginBottom="20dp"-->
-            <!--                android:fontFamily="@font/roboto_regular"-->
-            <!--                android:paddingLeft="20dp"-->
-            <!--                android:paddingRight="20dp"-->
-            <!--                android:text="Log Out"-->
-            <!--                android:textColor="@android:color/white"-->
-            <!--                android:textSize="18sp"-->
-            <!--                android:textStyle="bold" />-->
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/btnHelp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:fontFamily="@font/roboto_regular"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:text="Help"
-                android:textColor="@android:color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:visibility="gone" />
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

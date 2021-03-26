@@ -16,16 +16,17 @@ import com.mobitechs.tejasfruitsnvegetables.view.fragment.CartFragment
 
 
 class VendorListActivityRepository(val application: Application) : ApiResponse
-    {
+{
 
     val showProgressBar = MutableLiveData<Boolean>()
     val listItems = MutableLiveData<ArrayList<ProductListItems>>()
     val allProductListItems = MutableLiveData<ArrayList<ProductListItems>>()
     val addressListItems = MutableLiveData<ArrayList<AddressListItems>>()
     val myOrderListItems = MutableLiveData<ArrayList<MyOrderListItems>>()
+    val adminOrderListItems = MutableLiveData<ArrayList<MyOrderListItems>>()
 
     var method = ""
-        var userId=""
+    var userId=""
 
 
     fun changeState() {
@@ -42,14 +43,13 @@ class VendorListActivityRepository(val application: Application) : ApiResponse
         apiGetCall(url, this, method)
 
     }
-     fun getAllProduct() {
+    fun getAllProduct() {
 
         method = "GetProductList"
-        var url = Constants.BASE_URL + "?method=$method&&clientBusinessId=${Constants.clientBusinessId}"
+        var url = Constants.BASE_URL + "?method=$method&clientBusinessId=${Constants.clientBusinessId}"
         apiGetCall(url, this, method)
 
     }
-
 
 
     fun getMyOrderList() {
@@ -60,6 +60,13 @@ class VendorListActivityRepository(val application: Application) : ApiResponse
 
         method = "GetMyOrder"
         var url = Constants.BASE_URL + "?method=$method&userId=$userId&clientBusinessId=${Constants.clientBusinessId}"
+        apiGetCall(url, this, method)
+
+    }
+    fun getAdminOrderList() {
+        showProgressBar.value = true
+        method = "GetAdminOrder"
+        var url = Constants.BASE_URL + "?method=$method&clientBusinessId=${Constants.clientBusinessId}"
         apiGetCall(url, this, method)
 
     }
@@ -91,7 +98,7 @@ class VendorListActivityRepository(val application: Application) : ApiResponse
                 var productListItems: ArrayList<ProductListItems>? = gson.fromJson(data.toString(), type)
                 listItems.value = productListItems
             }
-           else if(method == "GetProductList"){
+            else if(method == "GetProductList"){
                 val type = object : TypeToken<ArrayList<ProductListItems>>() {}.type
                 var productListItems: ArrayList<ProductListItems>? = gson.fromJson(data.toString(), type)
                 allProductListItems.value = productListItems
@@ -100,7 +107,12 @@ class VendorListActivityRepository(val application: Application) : ApiResponse
                 val type = object : TypeToken<ArrayList<MyOrderListItems>>() {}.type
                 var items: ArrayList<MyOrderListItems>? = gson.fromJson(data.toString(), type)
                 myOrderListItems.value = items
-            }else  if(method == "GetAllAddress"){
+            } else  if(method == "GetAdminOrder"){
+                val type = object : TypeToken<ArrayList<MyOrderListItems>>() {}.type
+                var items: ArrayList<MyOrderListItems>? = gson.fromJson(data.toString(), type)
+                adminOrderListItems.value = items
+            }
+            else  if(method == "GetAllAddress"){
                 val type = object : TypeToken<ArrayList<AddressListItems>>() {}.type
                 var items: ArrayList<AddressListItems>? = gson.fromJson(data.toString(), type)
                 addressListItems.value = items

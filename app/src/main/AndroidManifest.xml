@@ -3,9 +3,11 @@
     package="com.mobitechs.tejasfruitsnvegetables">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autoFocus" android:required="false"/>
 
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature
+        android:name="android.hardware.camera.autoFocus"
+        android:required="false" />
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -16,14 +18,21 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.TejasFruitsNVegetables">
+        android:theme="@style/Theme.TejasFruitsNVegetables"
+        android:usesCleartextTraffic="true">
 
-
-        <activity android:name=".view.activity.HomeActivity" android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
-        <activity android:name=".view.activity.AuthActivity" android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
-        <activity android:name=".view.activity.ProductDetailActivity" android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
-        <activity android:name="com.mobitechs.tejasfruitsnvegetables.view.activity.SplashActivity" android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+        <activity
+            android:name=".view.activity.HomeActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+        <activity
+            android:name=".view.activity.AuthActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+        <activity
+            android:name=".view.fragment.ProductDetailActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
+        <activity
+            android:name=".view.activity.SplashActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
