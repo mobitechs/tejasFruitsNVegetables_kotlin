@@ -8,19 +8,11 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class UserModel(
     var userId: String,
-    var cardNo: String,
-    var name: String,
+    var userName: String,
     var mobileNo: String,
     var emailId: String,
-    var gender: String,
-    var dob: String,
     var address: String,
     var password: String,
+    var userImgPath: String,
     var userType: String,
-    var discountPercent: String,
-    var minimumAmount: String,
-    var vendorLogo: String,
-    var vendorBanner: String,
-    var category: String,
-    var description: String
 ):Parcelable

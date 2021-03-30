@@ -1,4 +1,4 @@
-package com.mobitechs.tejasfruitsnvegetables.view.activity
+package com.mobitechs.tejasfruitsnvegetables.view.fragment
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

@@ -65,7 +65,7 @@ class VendorListActivityRepository(val application: Application) : ApiResponse
     }
     fun getAdminOrderList() {
         showProgressBar.value = true
-        method = "GetAdminOrder"
+        method = "GetAllOrder"
         var url = Constants.BASE_URL + "?method=$method&clientBusinessId=${Constants.clientBusinessId}"
         apiGetCall(url, this, method)
 

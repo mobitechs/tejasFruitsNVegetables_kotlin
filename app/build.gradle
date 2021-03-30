@@ -88,9 +88,11 @@ dependencies {
 
 
     implementation 'com.github.smarteist:autoimageslider:1.4.0'
-
-
     implementation 'com.github.mejdi14:Flat-Dialog-Android:1.0.5'
+
+    //image video picker like whatsapp
+    implementation  'com.fxn769:pix:1.5.6'
+    implementation 'com.github.mmin18:realtimeblurview:1.2.1'
 
 
 }

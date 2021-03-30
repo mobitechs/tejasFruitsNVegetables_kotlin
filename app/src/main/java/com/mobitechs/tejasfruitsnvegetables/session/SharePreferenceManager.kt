@@ -97,7 +97,9 @@ class SharePreferenceManager {
         //sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
 
         editor.clear()
-        editor.commit()
+        removeValue(Constants.USERDATA)
+        removeValue(Constants.ISLOGIN)
+       // editor.commit()
 
         context.openActivity(AuthActivity::class.java)
     }

@@ -31,8 +31,8 @@ class SplashActivity : AppCompatActivity() {
         val window: Window = window
         setStatusColor(window,resources.getColor(R.color.colorPrimaryDark))
 
-        Handler().postDelayed({ checkLogin() }, SPLASH_TIME_OUT.toLong())
-       // getAllProducts()
+        //Handler().postDelayed({ checkLogin() }, SPLASH_TIME_OUT.toLong())
+        getAllProducts()
     }
 
     private fun getAllProducts() {

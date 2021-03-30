@@ -3,16 +3,12 @@ package com.mobitechs.tejasfruitsnvegetables.view.activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.Gravity
 import android.view.View
 import android.view.Window
 import android.widget.Toast
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import com.mobitechs.tejasfruitsnvegetables.R
 import com.mobitechs.tejasfruitsnvegetables.callbacks.AlertDialogBtnClickedCallBack
@@ -30,6 +26,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener, AlertDialogBtnCl
     private var doubleBackToExitPressedOnce = false
     var cartCount = 0
     var userType=""
+    var alertFor=""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,10 +64,33 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener, AlertDialogBtnCl
                 displayView(1)
             }
             R.id.llProfile -> {
-                displayView(2)
+                if (SharePreferenceManager.getInstance(this).getValueBoolean(Constants.ISLOGIN)) {
+                    displayView(2)
+                } else {
+                    alertFor="Login"
+                    showAlertDialog(
+                        "Confirmation",
+                        "You have not logged in yet, Do you want to login?",
+                        "Yes",
+                        "NO",
+                        this
+                    )
+                }
             }
             R.id.llMyOrder -> {
-                displayView(3)
+                if (SharePreferenceManager.getInstance(this).getValueBoolean(Constants.ISLOGIN)) {
+                    displayView(3)
+                } else {
+                    alertFor="Login"
+                    showAlertDialog(
+                        "Confirmation",
+                        "You have not logged in yet, Do you want to login?",
+                        "Yes",
+                        "NO",
+                        this
+                    )
+                }
+
             }
             R.id.layoutCart -> {
                 if (cartCount > 0) {
@@ -103,9 +123,9 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener, AlertDialogBtnCl
     private fun setupDrawer() {
         val userDetails = SharePreferenceManager.getInstance(this).getUserLogin(Constants.USERDATA)
 
-        if (userDetails?.get(0)?.name != null) {
+        if (userDetails?.get(0)?.userName != null) {
             userType = userDetails!![0].userType
-            txtUserName.setText(userDetails!![0].name)
+            txtUserName.setText(userDetails!![0].userName)
             txtMobile.setText(userDetails!![0].mobileNo)
             txtEmail.setText(userDetails!![0].emailId)
         }
@@ -241,28 +261,26 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener, AlertDialogBtnCl
 
     override fun onBackPressed() {
         val fragment: Fragment? = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+
+
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START)
         } else {
-
-//             if (fragment != null && ((fragment is HomeFragment) || (fragment is TabVegetablesFragment) ||(fragment is TabExoticVegetalbesFragment) ||(fragment is TabFruitsFragment))) {
-             if (fragment != null && ((fragment is TabListFragment)) ) {
-
+            if (fragment != null && (fragment is TabListFragment)) {
                 if (doubleBackToExitPressedOnce) {
                     super.onBackPressed()
                     return
                 }
+
                 this.doubleBackToExitPressedOnce = true
                 Toast.makeText(this, getString(R.string.double_tap), Toast.LENGTH_SHORT).show()
 
                 Handler().postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
-
             } else {
-                super.onBackPressed()
                 displayView(1)
+
             }
         }
-        super.onBackPressed()
     }
 
 }
