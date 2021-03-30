@@ -17,6 +17,7 @@ import com.mobitechs.tejasfruitsnvegetables.callbacks.ApiResponse
 import com.mobitechs.tejasfruitsnvegetables.model.MyOrderListItems
 import com.mobitechs.tejasfruitsnvegetables.utils.Constants
 import com.mobitechs.tejasfruitsnvegetables.utils.apiPostCall
+import com.mobitechs.tejasfruitsnvegetables.utils.parseDateToddMMyyyy
 import com.mobitechs.tejasfruitsnvegetables.utils.showToastMsg
 import com.mobitechs.tejasfruitsnvegetables.view.activity.HomeActivity
 import org.json.JSONException
@@ -58,7 +59,9 @@ class MyOrderListAdapter(
         holder.txtOrderId.text = item.orderId
         holder.txtOrderAmount.text = "Rs."+item.Amount
         holder.txtOrderStatus.text = item.status
-        holder.txtOrderDate.text = item.createdDate
+
+        var orderDate = parseDateToddMMyyyy(item.createdDate)
+        holder.txtOrderDate.text = orderDate
 //        holder.txtOrderDetails.text = item.orderDetails
 
 
