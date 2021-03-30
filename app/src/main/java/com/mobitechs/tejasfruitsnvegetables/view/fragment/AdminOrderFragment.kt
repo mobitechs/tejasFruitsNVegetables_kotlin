@@ -67,7 +67,7 @@ class AdminOrderFragment : Fragment() {
 
         viewModel.getAdminOrderList()
 
-        viewModel.myOrderListItems.observe(requireActivity(), Observer {
+        viewModel.adminOrderListItems.observe(requireActivity(), Observer {
             listAdapter.updateListItems(it)
         })
 

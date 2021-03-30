@@ -58,7 +58,8 @@ class MyOrderListAdapter(
         var item: MyOrderListItems = listItems.get(position)
         holder.txtOrderId.text = item.orderId
         holder.txtOrderAmount.text = "Rs."+item.Amount
-        holder.txtOrderStatus.text = item.status
+        holder.status = item.status
+        holder.txtOrderStatus.text = holder.status
 
         var orderDate = parseDateToddMMyyyy(item.createdDate)
         holder.txtOrderDate.text = orderDate
@@ -90,7 +91,7 @@ class MyOrderListAdapter(
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             holder.spinner.setAdapter(adapter)
 
-            holder.spinner.setSelection(Constants.qtyArray.indexOf(item.status))
+            holder.spinner.setSelection(Constants.orderStatusArray.indexOf(holder.status))
             holder.spinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -99,7 +100,9 @@ class MyOrderListAdapter(
 
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                     var status = Constants.orderStatusArray[p2]
-                    if(!item.status.equals(status)){
+                    if(!holder.status.equals(status)){
+                        holder.status = status
+                        listItems[position].status = status
                         callAPIToChangeOrderStatus(item.orderId,status)
                     }
 
@@ -134,7 +137,8 @@ class MyOrderListAdapter(
         var txtOrderStatus: TextView = view.findViewById(R.id.txtOrderStatus)
         var txtOrderDate: TextView = view.findViewById(R.id.txtOrderDate)
         var spinner: AppCompatSpinner = view.findViewById(R.id.spinner)
-//        var txtOrderDetails: TextView = view.findViewById(R.id.txtOrderDetails)
+
+        var status = ""
 
         val cardView: View = itemView
 

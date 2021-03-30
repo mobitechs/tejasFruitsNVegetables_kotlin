@@ -234,12 +234,23 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener, AlertDialogBtnCl
     }
 
     fun OpenOrderFragment() {
-        addFragment(
-            MyOrderFragment(),
-            false,
-            R.id.nav_host_fragment,
-            "MyOrderFragment"
-        )
+
+
+        if(userType.equals(Constants.admin)){
+            addFragment(
+                AdminOrderFragment(),
+                false,
+                R.id.nav_host_fragment,
+                "AdminOrderFragment"
+            )
+        }else{
+            addFragment(
+                MyOrderFragment(),
+                false,
+                R.id.nav_host_fragment,
+                "MyOrderFragment"
+            )
+        }
     }
 
     fun OpenOrderDetails(bundle: Bundle) {

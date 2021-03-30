@@ -73,14 +73,31 @@
                     android:text="Order Status: " />
 
 
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/txtOrderStatus"
+                <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="7"
-                    android:fontFamily="@font/roboto_regular"
-                    android:text="Received"
-                    android:textColor="@color/green" />
+                    android:layout_weight="7">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/txtOrderStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="Received"
+                        android:textColor="@color/green"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_rect">
+
+                        <androidx.appcompat.widget.AppCompatSpinner
+                            android:id="@+id/spinner"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </RelativeLayout>
             </LinearLayout>
 
             <LinearLayout

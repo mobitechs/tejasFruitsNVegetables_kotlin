@@ -34,7 +34,7 @@ data class MyOrderListItems(
     val password: String,
     val paymentDetails: String,
     val pincode: String,
-    val status: String,
+    var status: String,
     val updatedDate: String,
     val userId: String,
     val userName: String,

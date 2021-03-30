@@ -107,7 +107,7 @@ class VendorListActivityRepository(val application: Application) : ApiResponse
                 val type = object : TypeToken<ArrayList<MyOrderListItems>>() {}.type
                 var items: ArrayList<MyOrderListItems>? = gson.fromJson(data.toString(), type)
                 myOrderListItems.value = items
-            } else  if(method == "GetAdminOrder"){
+            } else  if(method == "GetAllOrder"){
                 val type = object : TypeToken<ArrayList<MyOrderListItems>>() {}.type
                 var items: ArrayList<MyOrderListItems>? = gson.fromJson(data.toString(), type)
                 adminOrderListItems.value = items
