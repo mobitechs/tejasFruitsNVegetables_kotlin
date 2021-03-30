@@ -98,7 +98,7 @@ fun AppCompatActivity.replaceFragmentWithData(
 
     val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
     fragment?.setArguments(bundle)
-    fragmentTransaction.add(containerViewId, fragment!!, flag)
+    fragmentTransaction.replace(containerViewId, fragment!!, flag)
     fragmentTransaction.addToBackStack(flag);
     fragmentTransaction.commit()
 

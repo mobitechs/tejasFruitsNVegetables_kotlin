@@ -91,16 +91,6 @@ class LoginFragment : Fragment(), ApiResponse {
             SharePreferenceManager.getInstance(requireContext()).save(Constants.ISLOGIN, true)
             SharePreferenceManager.getInstance(requireContext()).saveUserLogin(Constants.USERDATA, user)
 
-//
-//            val userType =
-//                SharePreferenceManager.getInstance(requireContext()).getUserLogin(Constants.USERDATA)
-//                    ?.get(0)?.userType.toString()
-//            if (userType.equals("Vendor")) {
-//                requireContext().openActivity(VendorHomeActivity::class.java)
-//            } else {
-//                requireContext().openActivity(VendorListActivity::class.java)
-//            }
-
             requireContext().openActivity(HomeActivity::class.java)
         }
 

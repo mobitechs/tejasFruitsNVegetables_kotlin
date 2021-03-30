@@ -27,6 +27,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener, AlertDialogBtnCl
     var cartCount = 0
     var userType=""
     var alertFor=""
+    var isLogin = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,9 +36,20 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener, AlertDialogBtnCl
         setStatusColor(window, resources.getColor(R.color.colorPrimary))
 
         drawerInit()
-        displayView(1)
         setupDrawer()
+        displayView(1)
 
+
+        isLogin = SharePreferenceManager.getInstance(this).getValueBoolean(Constants.ISLOGIN)
+
+       if(isLogin){
+           noLoginLayout.visibility = View.GONE
+           userDetailsLayout.visibility = View.VISIBLE
+       }
+       else{
+           noLoginLayout.visibility = View.VISIBLE
+           userDetailsLayout.visibility = View.GONE
+       }
     }
 
     fun drawerInit() {
@@ -49,6 +61,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener, AlertDialogBtnCl
         llShare.setOnClickListener(this)
         ivClose.setOnClickListener(this)
         llLogout.setOnClickListener(this)
+        txtLogin.setOnClickListener(this)
 
     }
 
@@ -63,8 +76,11 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener, AlertDialogBtnCl
             R.id.llHome -> {
                 displayView(1)
             }
+            R.id.txtLogin -> {
+                openClearActivity(AuthActivity::class.java)
+            }
             R.id.llProfile -> {
-                if (SharePreferenceManager.getInstance(this).getValueBoolean(Constants.ISLOGIN)) {
+                if (isLogin) {
                     displayView(2)
                 } else {
                     alertFor="Login"
@@ -78,7 +94,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener, AlertDialogBtnCl
                 }
             }
             R.id.llMyOrder -> {
-                if (SharePreferenceManager.getInstance(this).getValueBoolean(Constants.ISLOGIN)) {
+                if (isLogin) {
                     displayView(3)
                 } else {
                     alertFor="Login"
@@ -152,8 +168,8 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener, AlertDialogBtnCl
         when (pos) {
             1 -> {
                 toolbarTitle("Home")
-                if(userType.equals("Admin")){
-                    replaceFragment(HomeFragmentAdmin(), false, R.id.nav_host_fragment, "HomeFragmentAdmin")
+                if(userType.equals(Constants.admin)){
+                    replaceFragment(AdminHomeFragment(), false, R.id.nav_host_fragment, "AdminHomeFragment")
                 }else{
                     replaceFragment(HomeFragment(), false, R.id.nav_host_fragment, "HomeFragment")
                 }
@@ -176,12 +192,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener, AlertDialogBtnCl
             }
             3 -> {
                 toolbarTitle("My Orders")
-                addFragment(
-                    MyOrderFragment(),
-                    false,
-                    R.id.nav_host_fragment,
-                    "MyOrderFragment"
-                )
+                OpenOrderFragment()
             }
             4 -> {
                 toolbarTitle("Cart")
@@ -220,6 +231,15 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener, AlertDialogBtnCl
             layoutCartCount.visibility = View.VISIBLE
             txtCartCount.text = size.toString()
         }
+    }
+
+    fun OpenOrderFragment() {
+        addFragment(
+            MyOrderFragment(),
+            false,
+            R.id.nav_host_fragment,
+            "MyOrderFragment"
+        )
     }
 
     fun OpenOrderDetails(bundle: Bundle) {

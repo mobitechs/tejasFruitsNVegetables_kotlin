@@ -146,10 +146,7 @@ class CartListAdapter(
 
 
         holder.itemView.btnWishList.setOnClickListener {
-
-
             addOrRemoveListener.removeFromCart(item, position)
-
         }
 
 

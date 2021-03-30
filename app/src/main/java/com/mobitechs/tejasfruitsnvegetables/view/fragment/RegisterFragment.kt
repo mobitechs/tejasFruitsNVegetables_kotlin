@@ -103,15 +103,6 @@ class RegisterFragment : Fragment(), ApiResponse {
             SharePreferenceManager.getInstance(requireActivity())
                 .saveUserLogin(Constants.USERDATA, user)
 
-
-//            val userType =
-//                SharePreferenceManager.getInstance(requireActivity()).getUserLogin(Constants.USERDATA)
-//                    ?.get(0)?.userType.toString()
-//            if (userType.equals("Vendor")) {
-//                requireActivity().openActivity(VendorHomeActivity::class.java)
-//            } else {
-//                requireActivity().openActivity(VendorListActivity::class.java)
-//            }
             requireActivity().openActivity(HomeActivity::class.java)
         }
 

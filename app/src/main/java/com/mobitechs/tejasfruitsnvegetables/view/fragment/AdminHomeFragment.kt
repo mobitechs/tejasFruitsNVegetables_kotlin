@@ -5,16 +5,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.mobitechs.tejasfruitsnvegetables.R
 import com.mobitechs.tejasfruitsnvegetables.session.SharePreferenceManager
 import com.mobitechs.tejasfruitsnvegetables.utils.Constants
+import com.mobitechs.tejasfruitsnvegetables.view.activity.HomeActivity
 
-class HomeFragmentAdmin : Fragment() {
+class AdminHomeFragment : Fragment() {
     lateinit var rootView: View
     lateinit var txtCollection: TextView
     lateinit var txtOrderCount: TextView
+    lateinit var orderLayout: LinearLayout
 
     var todaysOrderCount=""
     var todaysCollection=""
@@ -33,6 +36,11 @@ class HomeFragmentAdmin : Fragment() {
     private fun initView() {
         txtCollection = rootView.findViewById(R.id.txtCollection)!!
         txtOrderCount = rootView.findViewById(R.id.txtOrderCount)!!
+        orderLayout = rootView.findViewById(R.id.orderLayout)!!
+
+        orderLayout.setOnClickListener{
+            (activity as HomeActivity).OpenOrderFragment()
+        }
         updateUI()
 
     }

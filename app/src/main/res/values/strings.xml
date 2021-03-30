@@ -19,4 +19,5 @@
     <string name="likes">U+1F44D </string>
     <string name="forgot_password"><u>Forgot Password</u> </string>
     <string name="register">New User? <u>Register</u> </string>
+    <string name="login"><u>Log In</u> </string>
 </resources>

@@ -11,6 +11,7 @@ class Constants {
         const val USERDATA = "userData"
         const val adminEmail = "tejasfruitsnvegetable@gmail.com"
         const val adminMobile = "8082431944"
+        const val admin = "Admin"
 
         const val ISLOGIN = "isLogin"
         const val userId = "userId"

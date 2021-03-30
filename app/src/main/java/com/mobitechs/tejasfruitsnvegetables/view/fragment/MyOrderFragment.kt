@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mobitechs.tejasfruitsnvegetables.R
 import com.mobitechs.tejasfruitsnvegetables.adapter.MyOrderListAdapter
 import com.mobitechs.tejasfruitsnvegetables.model.MyOrderListItems
+import com.mobitechs.tejasfruitsnvegetables.session.SharePreferenceManager
+import com.mobitechs.tejasfruitsnvegetables.utils.Constants
 import com.mobitechs.tejasfruitsnvegetables.viewModel.VendorListActivityViewModel
 
 
@@ -24,7 +26,8 @@ class MyOrderFragment : Fragment() {
     lateinit var listAdapter: MyOrderListAdapter
     var listItems = ArrayList<MyOrderListItems>()
     lateinit var mLayoutManager: LinearLayoutManager
-    var userId ="1"
+    var userId =""
+    var userType =""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +40,8 @@ class MyOrderFragment : Fragment() {
 
     }
     private fun intView() {
+        userType = SharePreferenceManager.getInstance(requireContext()).getUserLogin(Constants.USERDATA)
+            ?.get(0)?.userType.toString()
         setupRecyclerView()
     }
 
@@ -49,7 +54,9 @@ class MyOrderFragment : Fragment() {
         recyclerView.layoutManager = mLayoutManager
         recyclerView.itemAnimator = DefaultItemAnimator()
 
-        listAdapter = MyOrderListAdapter(requireActivity())
+
+
+        listAdapter = MyOrderListAdapter(requireActivity(),userType)
         recyclerView.adapter = listAdapter
         listAdapter.updateListItems(listItems)
 
