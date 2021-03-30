@@ -99,6 +99,7 @@ class SharePreferenceManager {
         editor.clear()
         removeValue(Constants.USERDATA)
         removeValue(Constants.ISLOGIN)
+        clearCart()
        // editor.commit()
 
         context.openActivity(AuthActivity::class.java)

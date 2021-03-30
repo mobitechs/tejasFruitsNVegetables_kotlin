@@ -103,7 +103,7 @@ class MyOrderDetailsFragment : Fragment(), ApiResponse {
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.setAdapter(adapter)
 
-            spinner.setSelection(Constants.qtyArray.indexOf(listItem.status))
+            spinner.setSelection(Constants.orderStatusArray.indexOf(listItem.status))
             spinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
 
                 override fun onNothingSelected(p0: AdapterView<*>?) {

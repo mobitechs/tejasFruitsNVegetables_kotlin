@@ -297,7 +297,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener, AlertDialogBtnCl
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START)
         } else {
-            if (fragment != null && (fragment is TabListFragment)) {
+            if (fragment != null && ( (fragment is HomeFragment) ||  (fragment is AdminHomeFragment)) ) {
                 if (doubleBackToExitPressedOnce) {
                     super.onBackPressed()
                     return
@@ -307,9 +307,10 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener, AlertDialogBtnCl
                 Toast.makeText(this, getString(R.string.double_tap), Toast.LENGTH_SHORT).show()
 
                 Handler().postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
-            } else {
-                displayView(1)
-
+            }
+            else {
+//                displayView(1)
+                super.onBackPressed()
             }
         }
     }
