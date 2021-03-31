@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
@@ -27,7 +28,7 @@ import org.json.JSONObject
 class LoginFragment : Fragment(), ApiResponse {
 
     lateinit var rootView: View
-
+    lateinit var layoutLoader: RelativeLayout
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,6 +47,7 @@ class LoginFragment : Fragment(), ApiResponse {
         val etEmail: TextInputEditText = rootView.findViewById(R.id.etEmail)!!
         val etPassword: TextInputEditText = rootView.findViewById(R.id.etPassword)!!
 
+        layoutLoader = rootView.findViewById(R.id.layoutLoader)
         btnSignUp.setOnClickListener {
             navController?.navigate(R.id.action_login_to_register)
         }
@@ -60,7 +62,7 @@ class LoginFragment : Fragment(), ApiResponse {
             } else if (etPassword.text.toString().equals("")) {
                 requireActivity().showToastMsg("Enter Password")
             } else {
-
+                layoutLoader.visibility = View.VISIBLE
                 val method = "userLogin"
                 val jsonObject = JSONObject()
                 try {
@@ -93,11 +95,13 @@ class LoginFragment : Fragment(), ApiResponse {
 
             requireContext().openActivity(HomeActivity::class.java)
         }
+        layoutLoader.visibility = View.GONE
 
     }
 
     override fun onFailure(message: String) {
         requireContext().showToastMsg(message)
+        layoutLoader.visibility = View.GONE
     }
 
 }

@@ -41,6 +41,7 @@ class Constants {
         val pieceArray = arrayOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12")
         val unitTypeArray = arrayOf("Grams", "Piece", "Packet", "Dozen", "Bunch", "Stick")
         val orderStatusArray = arrayOf( "Received", "Accepted", "Placed", "Completed")
+        val categoryArray = arrayOf( "Vegetables", "Exotic Vegetables", "Fruits")
 
 
     }

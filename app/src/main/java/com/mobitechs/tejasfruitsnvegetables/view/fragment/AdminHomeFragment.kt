@@ -46,7 +46,6 @@ class AdminHomeFragment : Fragment() {
     }
 
     private fun updateUI() {
-        txtOrderCount.text = todaysOrderCount
 
         if(todaysCollection.equals("") || todaysCollection.equals("0")){
             txtCollection.visibility = View.GONE
@@ -54,6 +53,14 @@ class AdminHomeFragment : Fragment() {
         else{
             txtCollection.visibility = View.VISIBLE
             txtCollection.text = todaysCollection
+        }
+
+        if(todaysOrderCount.equals("") || todaysOrderCount.equals("0")){
+            txtOrderCount.visibility = View.GONE
+        }
+        else{
+            txtOrderCount.visibility = View.VISIBLE
+            txtOrderCount.text = todaysOrderCount
         }
 
 

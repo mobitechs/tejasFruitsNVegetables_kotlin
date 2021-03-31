@@ -6,10 +6,8 @@ import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.Filter
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.mobitechs.tejasfruitsnvegetables.R
 import com.mobitechs.tejasfruitsnvegetables.callbacks.AddOrRemoveListener
@@ -25,7 +23,8 @@ class TabVegetablesAdapter(
     activityContext: Context,
     private val addOrRemoveListener: AddOrRemoveListener,
     private var cartListItems: ArrayList<ProductListItems>,
-    private var allProduct: ArrayList<ProductListItems>
+    private var allProduct: ArrayList<ProductListItems>,
+    val userType:String
 
 ) :
     RecyclerView.Adapter<TabVegetablesAdapter.MyViewHolder>() {
@@ -49,7 +48,6 @@ class TabVegetablesAdapter(
         notifyDataSetChanged()
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         var itemView: View =
             LayoutInflater.from(parent.context)
@@ -57,7 +55,6 @@ class TabVegetablesAdapter(
 
         return MyViewHolder(itemView)
     }
-
 
     override fun getItemCount(): Int {
         return listItems.size
@@ -87,16 +84,16 @@ class TabVegetablesAdapter(
         }
 
         if(cartListItems.contains(item)){
-            holder.itemView.btnWishList.setImageResource(R.drawable.ic_baseline_remove_circle_24)
+            holder.btnWishList.setImageResource(R.drawable.ic_baseline_remove_circle_24)
         } else{
-            holder.itemView.btnWishList.setImageResource(R.drawable.ic_outline_add_circle_24)
+            holder.btnWishList.setImageResource(R.drawable.ic_outline_add_circle_24)
         }
 
-        holder.itemView.btnWishList.setOnClickListener {
+        holder.btnWishList.setOnClickListener {
 
            if(SharePreferenceManager.getInstance(context).getCartListItems(Constants.CartList)  == null){
 //               cartListItems.add(item)
-               holder.itemView.btnWishList.setImageResource(R.drawable.ic_baseline_remove_circle_24)
+               holder.btnWishList.setImageResource(R.drawable.ic_baseline_remove_circle_24)
                addOrRemoveListener.addToCart(item, position)
            }
             else{
@@ -104,18 +101,33 @@ class TabVegetablesAdapter(
                    Constants.CartList
                ) as ArrayList<ProductListItems>
                if (cartListItems.contains(item)) {
-                   holder.itemView.btnWishList.setImageResource(R.drawable.ic_outline_add_circle_24)
+                   holder.btnWishList.setImageResource(R.drawable.ic_outline_add_circle_24)
 //                   cartListItems.remove(item)
                    addOrRemoveListener.removeFromCart(item, position)
                } else {
-                   holder.itemView.btnWishList.setImageResource(R.drawable.ic_baseline_remove_circle_24)
+                   holder.btnWishList.setImageResource(R.drawable.ic_baseline_remove_circle_24)
 //                   cartListItems.add(item)
                    addOrRemoveListener.addToCart(item, position)
                }
-            }
-
+           }
 //            SharePreferenceManager.getInstance(context).saveCartListItems(Constants.CartList, cartListItems)
 //            (context as HomeActivity)!!.updateCartCount(cartListItems.size)
+        }
+
+        if(userType.equals(Constants.admin)){
+            holder.adminBtnLayout.visibility = View.VISIBLE
+            holder.btnWishList.visibility = View.GONE
+
+        }
+        else{
+            holder.btnWishList.visibility = View.VISIBLE
+            holder.adminBtnLayout.visibility = View.GONE
+        }
+        holder.btnEdit.setOnClickListener {
+            addOrRemoveListener.editProduct(item, position)
+        }
+        holder.btnDelete.setOnClickListener {
+            addOrRemoveListener.deleteProduct(item, position)
         }
 
         holder.itemView.setOnClickListener {
@@ -135,6 +147,10 @@ class TabVegetablesAdapter(
         var lblWeight: TextView = view.findViewById(R.id.lblWeight)
         var lblPrice: TextView = view.findViewById(R.id.lblPrice)
         var lblDiscountedPrice: TextView = view.findViewById(R.id.lblDiscountedPrice)
+        var btnWishList: AppCompatImageView = view.findViewById(R.id.btnWishList)
+        var btnDelete: AppCompatImageView = view.findViewById(R.id.btnDelete)
+        var btnEdit: AppCompatImageView = view.findViewById(R.id.btnEdit)
+        var adminBtnLayout: LinearLayout = view.findViewById(R.id.adminBtnLayout)
         val cardView: View = itemView
 
     }

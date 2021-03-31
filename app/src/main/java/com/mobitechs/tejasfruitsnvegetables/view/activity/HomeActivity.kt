@@ -58,6 +58,7 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener, AlertDialogBtnCl
         layoutCart.setOnClickListener(this)
         llProfile.setOnClickListener(this)
         llMyOrder.setOnClickListener(this)
+        lProductList.setOnClickListener(this)
         llShare.setOnClickListener(this)
         ivClose.setOnClickListener(this)
         llLogout.setOnClickListener(this)
@@ -71,13 +72,16 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener, AlertDialogBtnCl
                 drawer.openDrawer(Gravity.LEFT)
             }
             R.id.ivClose -> {
-                drawerOpenorClose()
+
             }
             R.id.llHome -> {
                 displayView(1)
             }
             R.id.txtLogin -> {
                 openClearActivity(AuthActivity::class.java)
+            }
+            R.id.lProductList -> {
+                displayView(5)
             }
             R.id.llProfile -> {
                 if (isLogin) {
@@ -114,7 +118,6 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener, AlertDialogBtnCl
                 } else {
                     showToastMsg("Cart is empty.")
                 }
-
             }
             R.id.llShare -> {
                 ShareApp()
@@ -124,7 +127,6 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener, AlertDialogBtnCl
                 //clear sesssion
                 drawerOpenorClose()
                 showAlertDialog("Confirmation", "Do you really want to logout?", "Yes", "NO", this)
-
             }
         }
     }
@@ -133,7 +135,6 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener, AlertDialogBtnCl
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }
-
     }
 
     private fun setupDrawer() {
@@ -144,6 +145,14 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener, AlertDialogBtnCl
             txtUserName.setText(userDetails!![0].userName)
             txtMobile.setText(userDetails!![0].mobileNo)
             txtEmail.setText(userDetails!![0].emailId)
+
+            if(userType.equals(Constants.admin)){
+                lProductList.visibility = View.VISIBLE
+                txtMyOrder.setText("All Order")
+            }else{
+                lProductList.visibility = View.GONE
+                txtMyOrder.setText("My Order")
+            }
         }
 
     }
@@ -202,6 +211,10 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener, AlertDialogBtnCl
                     R.id.nav_host_fragment,
                     "CartFragment"
                 )
+            }
+            5 -> {
+                toolbarTitle("Products")
+                addFragment(HomeFragment(), false, R.id.nav_host_fragment, "HomeFragment")
             }
         }
         drawerOpenorClose()
@@ -278,6 +291,16 @@ class HomeActivity : AppCompatActivity(), View.OnClickListener, AlertDialogBtnCl
             false,
             R.id.nav_host_fragment,
             "AddAddressFragment",
+            bundle
+        )
+    }
+
+    fun OpenEditProductFragment(bundle: Bundle) {
+        addFragmentWithData(
+            AdminProductEditFragment(),
+            false,
+            R.id.nav_host_fragment,
+            "AdminProductEditFragment",
             bundle
         )
     }

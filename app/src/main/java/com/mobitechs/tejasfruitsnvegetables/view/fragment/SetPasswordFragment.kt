@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.mobitechs.tejasfruitsnvegetables.R
@@ -20,6 +21,7 @@ class SetPasswordFragment : Fragment(), ApiResponse {
 
     var email = ""
     lateinit var rootView: View
+    lateinit var layoutLoader: RelativeLayout
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +35,7 @@ class SetPasswordFragment : Fragment(), ApiResponse {
 
     private fun initView() {
         val newPasswordSubmit: Button = rootView.findViewById(R.id.newPasswordSubmit)
+        layoutLoader = rootView.findViewById(R.id.layoutLoader)
         email = arguments?.getString("email").toString()
         newPasswordSubmit.setOnClickListener {
             if (etOtp.text.toString().equals("")) {
@@ -46,6 +49,7 @@ class SetPasswordFragment : Fragment(), ApiResponse {
                 if (!etPassword.text.toString().equals(etConfirmPassword.text.toString())) {
                     requireContext().showToastMsg("Passwords are not matched")
                 } else {
+                    layoutLoader.visibility = View.VISIBLE
                     val method = "SetPassword"
                     val jsonObject = JSONObject()
                     try {
@@ -74,11 +78,12 @@ class SetPasswordFragment : Fragment(), ApiResponse {
         } else {
             requireContext().showToastMsg(data.toString())
         }
-
+        layoutLoader.visibility = View.GONE
     }
 
     override fun onFailure(message: String) {
         requireContext().showToastMsg(message)
+        layoutLoader.visibility = View.GONE
     }
 
 }

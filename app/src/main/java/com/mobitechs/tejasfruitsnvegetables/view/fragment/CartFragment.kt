@@ -166,6 +166,14 @@ class CartFragment : Fragment(), AddOrRemoveListener, CartListUpdated,
         }
     }
 
+    override fun editProduct(item: ProductListItems, position: Int) {
+
+    }
+
+    override fun deleteProduct(item: ProductListItems, position: Int) {
+
+    }
+
     override fun cartListUpdated(cListItems: ArrayList<ProductListItems>) {
         //calculate the amount
         cartListItems2 = cListItems

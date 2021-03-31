@@ -24,7 +24,7 @@ import org.json.JSONObject
 class RegisterFragment : Fragment(), ApiResponse {
 
     lateinit var rootView: View
-
+    lateinit var layoutLoader: RelativeLayout
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +38,7 @@ class RegisterFragment : Fragment(), ApiResponse {
 
     private fun initView() {
 
-
+        layoutLoader = rootView.findViewById(R.id.layoutLoader)
         val btnSignUp: Button = rootView.findViewById(R.id.btnSignUp)!!
         val etName: TextInputEditText = rootView.findViewById(R.id.etName)!!
         val etEmail: TextInputEditText = rootView.findViewById(R.id.etEmail)
@@ -66,6 +66,7 @@ class RegisterFragment : Fragment(), ApiResponse {
                 } else if (!etPassword.text.toString().equals(etConfirmPassword.text.toString())) {
                     requireActivity().showToastMsg("Passwords are not matched")
                 } else {
+                    layoutLoader.visibility = View.VISIBLE
                     val method = "userRegister"
                     val jsonObject = JSONObject()
                     try {
@@ -105,11 +106,12 @@ class RegisterFragment : Fragment(), ApiResponse {
 
             requireActivity().openActivity(HomeActivity::class.java)
         }
-
+        layoutLoader.visibility = View.GONE
 
     }
 
     override fun onFailure(message: String) {
         requireActivity().showToastMsg(message)
+        layoutLoader.visibility = View.GONE
     }
 }

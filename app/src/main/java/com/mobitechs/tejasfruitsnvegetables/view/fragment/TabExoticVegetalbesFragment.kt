@@ -16,15 +16,16 @@ import com.google.android.material.textfield.TextInputEditText
 import com.mobitechs.tejasfruitsnvegetables.R
 import com.mobitechs.tejasfruitsnvegetables.adapter.TabVegetablesAdapter
 import com.mobitechs.tejasfruitsnvegetables.callbacks.AddOrRemoveListener
+import com.mobitechs.tejasfruitsnvegetables.callbacks.ApiResponse
 import com.mobitechs.tejasfruitsnvegetables.model.ProductListItems
 import com.mobitechs.tejasfruitsnvegetables.session.SharePreferenceManager
-import com.mobitechs.tejasfruitsnvegetables.utils.Constants
-import com.mobitechs.tejasfruitsnvegetables.utils.addToCart
-import com.mobitechs.tejasfruitsnvegetables.utils.removeToCart
-import com.mobitechs.tejasfruitsnvegetables.utils.showToastMsg
+import com.mobitechs.tejasfruitsnvegetables.utils.*
+import com.mobitechs.tejasfruitsnvegetables.view.activity.HomeActivity
 import com.mobitechs.tejasfruitsnvegetables.viewModel.VendorListActivityViewModel
+import org.json.JSONException
+import org.json.JSONObject
 
-class TabExoticVegetalbesFragment : Fragment(), AddOrRemoveListener {
+class TabExoticVegetalbesFragment : Fragment(), AddOrRemoveListener, ApiResponse {
 
     lateinit var rootView: View
     lateinit var viewModel: VendorListActivityViewModel
@@ -36,6 +37,9 @@ class TabExoticVegetalbesFragment : Fragment(), AddOrRemoveListener {
 
     var categoryId = "2"
     var searchText = ""
+    var userId = ""
+    var userType = ""
+    var position = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,6 +52,11 @@ class TabExoticVegetalbesFragment : Fragment(), AddOrRemoveListener {
 
 
     private fun intView() {
+        userId = SharePreferenceManager.getInstance(requireContext()).getUserLogin(Constants.USERDATA)
+            ?.get(0)?.userId.toString()
+
+        userType = SharePreferenceManager.getInstance(requireContext()).getUserLogin(Constants.USERDATA)
+            ?.get(0)?.userType.toString()
 
         if (SharePreferenceManager.getInstance(requireContext())
                 .getCartListItems(Constants.CartList) != null
@@ -86,7 +95,7 @@ class TabExoticVegetalbesFragment : Fragment(), AddOrRemoveListener {
         recyclerView.layoutManager = mLayoutManager
         recyclerView.itemAnimator = DefaultItemAnimator()
 
-        listAdapter = TabVegetablesAdapter(requireActivity(), this, cartListItems,allProductListItems)
+        listAdapter = TabVegetablesAdapter(requireActivity(), this, cartListItems,allProductListItems,userType)
         recyclerView.adapter = listAdapter
 
 //        for (i in 0..allProductListItems.size - 1) {
@@ -140,6 +149,45 @@ class TabExoticVegetalbesFragment : Fragment(), AddOrRemoveListener {
 
     fun cartUpdated(cartListItems: ArrayList<ProductListItems>) {
         listAdapter.updateListItems(cartListItems)
+    }
+
+    override fun editProduct(item: ProductListItems, position: Int) {
+        var bundle = Bundle()
+        bundle.putParcelable("item", item)
+        (context as HomeActivity?)!!.OpenEditProductFragment(bundle)
+    }
+
+    override fun deleteProduct(item: ProductListItems, pos: Int) {
+        position = pos
+        //call an api to delete product
+        val method = "DeleteProduct"
+        val jsonObject = JSONObject()
+        try {
+            jsonObject.put("method", method)
+            jsonObject.put("productId", item.productId)
+            jsonObject.put("userId", userId)
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+        apiPostCall(Constants.BASE_URL, jsonObject, this, method)
+    }
+
+    override fun onSuccess(data: Any, tag: String) {
+        if (data.equals("SUCCESS")) {
+            requireContext().showToastMsg("Product deleted successfully.")
+
+            listItems!!.removeAt(position)
+            listAdapter.notifyItemRemoved(position)
+            listAdapter.notifyItemRangeChanged(position, listItems!!.size)
+            listAdapter.notifyDataSetChanged()
+
+        } else {
+            requireContext().showToastMsg("Failed to product delete.")
+        }
+    }
+
+    override fun onFailure(message: String) {
+        requireContext().showToastMsg(message)
     }
 
 

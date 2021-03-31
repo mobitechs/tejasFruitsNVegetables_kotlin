@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.RelativeLayout
 import androidx.navigation.Navigation
 import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
@@ -23,6 +24,7 @@ import org.json.JSONException
 import org.json.JSONObject
 
 class AddAddressFragment : Fragment(), ApiResponse {
+
     lateinit var listItem : AddressListItems
     lateinit var rootView: View
     var userId = ""
@@ -31,6 +33,7 @@ class AddAddressFragment : Fragment(), ApiResponse {
     lateinit var etArea: TextInputEditText
     lateinit var etCity: TextInputEditText
     lateinit var etPincode: TextInputEditText
+    lateinit var layoutLoader: RelativeLayout
 
     var imFor=""
     override fun onCreateView(
@@ -56,6 +59,7 @@ class AddAddressFragment : Fragment(), ApiResponse {
         etArea = rootView.findViewById(R.id.etArea)
         etCity = rootView.findViewById(R.id.etCity)
         etPincode = rootView.findViewById(R.id.etPincode)
+        layoutLoader = rootView.findViewById(R.id.layoutLoader)
 
         if(imFor.equals("Edit")){
             listItem = arguments?.getParcelable("addressDetailsItem")!!
@@ -76,6 +80,7 @@ class AddAddressFragment : Fragment(), ApiResponse {
             else if (etPincode.text.toString().equals("")) {
                 requireActivity().showToastMsg("Enter Confirm Password ")
             } else {
+                layoutLoader.visibility = View.VISIBLE
                 val jsonObject = JSONObject()
                 var method = ""
                 if(imFor.equals("Add")){
@@ -124,13 +129,14 @@ class AddAddressFragment : Fragment(), ApiResponse {
             }else{
                 requireActivity().showToastMsg("Address successfully updated")
             }
-
+            layoutLoader.visibility = View.GONE
             (activity as HomeActivity)!!.OpenAddressList()
         }
 
     }
 
     override fun onFailure(message: String) {
+        layoutLoader.visibility = View.GONE
         requireActivity().showToastMsg(message)
     }
 }

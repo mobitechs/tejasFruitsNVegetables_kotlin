@@ -16,16 +16,17 @@ import com.google.android.material.textfield.TextInputEditText
 import com.mobitechs.tejasfruitsnvegetables.R
 import com.mobitechs.tejasfruitsnvegetables.adapter.TabVegetablesAdapter
 import com.mobitechs.tejasfruitsnvegetables.callbacks.AddOrRemoveListener
+import com.mobitechs.tejasfruitsnvegetables.callbacks.ApiResponse
 import com.mobitechs.tejasfruitsnvegetables.model.ProductListItems
 import com.mobitechs.tejasfruitsnvegetables.session.SharePreferenceManager
-import com.mobitechs.tejasfruitsnvegetables.utils.Constants
-import com.mobitechs.tejasfruitsnvegetables.utils.addToCart
-import com.mobitechs.tejasfruitsnvegetables.utils.removeToCart
-import com.mobitechs.tejasfruitsnvegetables.utils.showToastMsg
+import com.mobitechs.tejasfruitsnvegetables.utils.*
+import com.mobitechs.tejasfruitsnvegetables.view.activity.HomeActivity
 import com.mobitechs.tejasfruitsnvegetables.viewModel.VendorListActivityViewModel
 import kotlinx.android.synthetic.main.contenair.*
+import org.json.JSONException
+import org.json.JSONObject
 
-class TabVegetablesFragment : Fragment(), AddOrRemoveListener {
+class TabVegetablesFragment : Fragment(), AddOrRemoveListener, ApiResponse {
 
     lateinit var rootView: View
     lateinit var viewModel: VendorListActivityViewModel
@@ -38,6 +39,9 @@ class TabVegetablesFragment : Fragment(), AddOrRemoveListener {
 
     var categoryId = "1"
     var searchText = ""
+    var userId = ""
+    var userType = ""
+    var position = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,6 +53,12 @@ class TabVegetablesFragment : Fragment(), AddOrRemoveListener {
     }
 
     private fun intView() {
+        userId = SharePreferenceManager.getInstance(requireContext()).getUserLogin(Constants.USERDATA)
+            ?.get(0)?.userId.toString()
+
+        userType = SharePreferenceManager.getInstance(requireContext()).getUserLogin(Constants.USERDATA)
+            ?.get(0)?.userType.toString()
+
         if (SharePreferenceManager.getInstance(requireContext())
                 .getCartListItems(Constants.CartList) != null
         ) {
@@ -64,15 +74,11 @@ class TabVegetablesFragment : Fragment(), AddOrRemoveListener {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 searchText = s.toString()
                 listAdapter.getFilter()!!.filter(searchText)
-
             }
-
             override fun afterTextChanged(s: Editable) {}
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                // TODO Auto-generated method stub
             }
         })
-
     }
 
     private fun setupRecyclerView() {
@@ -84,7 +90,7 @@ class TabVegetablesFragment : Fragment(), AddOrRemoveListener {
         recyclerView.layoutManager = mLayoutManager
         recyclerView.itemAnimator = DefaultItemAnimator()
 
-        listAdapter = TabVegetablesAdapter(requireActivity(), this, cartListItems,allProductListItems)
+        listAdapter = TabVegetablesAdapter(requireActivity(), this, cartListItems,allProductListItems,userType)
         recyclerView.adapter = listAdapter
 
         listAdapter.updateListItems(listItems)
@@ -113,13 +119,48 @@ class TabVegetablesFragment : Fragment(), AddOrRemoveListener {
         requireContext().removeToCart(item)
     }
 
+    override fun editProduct(item: ProductListItems, position: Int) {
+        var bundle = Bundle()
+        bundle.putParcelable("item", item)
+        (context as HomeActivity?)!!.OpenEditProductFragment(bundle)
+    }
+
+    override fun deleteProduct(item: ProductListItems, pos: Int) {
+        position = pos
+        //call an api to delete product
+        val method = "DeleteProduct"
+        val jsonObject = JSONObject()
+        try {
+            jsonObject.put("method", method)
+            jsonObject.put("productId", item.productId)
+            jsonObject.put("userId", userId)
+        } catch (e: JSONException) {
+            e.printStackTrace()
+        }
+        apiPostCall(Constants.BASE_URL, jsonObject, this, method)
+    }
+
     override fun onResume() {
         super.onResume()
-//        requireActivity().showToastMsg("vegi resumed called")
         intView()
     }
 
-    override fun onPause() {
-        super.onPause()
+
+    override fun onSuccess(data: Any, tag: String) {
+        if (data.equals("SUCCESS")) {
+            requireContext().showToastMsg("Product deleted successfully.")
+
+            listItems!!.removeAt(position)
+            listAdapter.notifyItemRemoved(position)
+            listAdapter.notifyItemRangeChanged(position, listItems!!.size)
+            listAdapter.notifyDataSetChanged()
+
+        } else {
+            requireContext().showToastMsg("Failed to product delete.")
+        }
+    }
+
+    override fun onFailure(message: String) {
+        requireContext().showToastMsg(message)
     }
 }

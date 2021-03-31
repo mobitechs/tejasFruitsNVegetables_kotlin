@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.google.android.material.textfield.TextInputEditText
@@ -19,6 +20,7 @@ import org.json.JSONObject
 class ForgotPasswordFragment : Fragment(), ApiResponse {
     lateinit var rootView: View
     var email = ""
+    lateinit var layoutLoader: RelativeLayout
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,7 +32,7 @@ class ForgotPasswordFragment : Fragment(), ApiResponse {
 
     private fun intView() {
 
-
+        layoutLoader = rootView.findViewById(R.id.layoutLoader)
         val emailSubmit: Button = rootView.findViewById(R.id.emailSubmit)!!
         val etEmail: TextInputEditText = rootView.findViewById(R.id.etEmail)!!
 
@@ -39,7 +41,7 @@ class ForgotPasswordFragment : Fragment(), ApiResponse {
             if (email.equals("")) {
                 requireContext().showToastMsg("Enter Email Id")
             } else {
-
+                layoutLoader.visibility = View.VISIBLE
                 val method = "ForgotPassword"
                 val jsonObject = JSONObject()
                 try {
@@ -68,10 +70,12 @@ class ForgotPasswordFragment : Fragment(), ApiResponse {
                 bundle
             )
         }
+        layoutLoader.visibility = View.GONE
     }
 
     override fun onFailure(message: String) {
         requireContext().showToastMsg(message)
+        layoutLoader.visibility = View.GONE
     }
 
 

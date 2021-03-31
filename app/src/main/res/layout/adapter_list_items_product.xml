@@ -26,8 +26,33 @@
                 android:scaleType="centerInside" />
 
             <include layout="@layout/progressbar" />
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/adminBtnLayout"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/btnDelete"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:tint="@color/red"
+                    card_view:srcCompat="@drawable/ic_baseline_delete_24" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/btnEdit"
+                    android:layout_width="@dimen/_25sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_margin="@dimen/_5sdp"
+                    card_view:srcCompat="@drawable/ic_round_edit_24" />
+
+            </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatImageView
+
                 android:id="@+id/btnWishList"
                 android:layout_width="@dimen/_25sdp"
                 android:layout_height="@dimen/_25sdp"

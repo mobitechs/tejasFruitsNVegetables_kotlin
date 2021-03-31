@@ -113,7 +113,6 @@ class MyOrderListAdapter(
             holder.txtOrderStatus.visibility = View.VISIBLE
             holder.spinner.visibility = View.GONE
         }
-
     }
 
     private fun callAPIToChangeOrderStatus(orderId: String, status: String) {
